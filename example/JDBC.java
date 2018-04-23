@@ -15,11 +15,11 @@ import com.jcraft.jsch.Session;
 public class JDBC {
 
   static int lport=8740;
-  static String rhost="127.0.0.1";
-  static String host="monicarobison@onyx.boisestate.edu";
-  static int rport=5840;
-  static String user="monicarobison";//ssh user
-  static String password="15@lbaRocks95";//ssh pass
+  static String rhost="";
+  static String host="";
+  static int rport= 0; //
+  static String user="";//ssh user
+  static String password="";//ssh pass
   
   static String dbuserName = "msandbox";//mysql user
   static String dbpassword = "taranica"; //mysql pass
@@ -33,7 +33,7 @@ public class JDBC {
 	  Properties config = new Properties();
 	  config.put("StrictHostKeyChecking", "no");
 	  JSch jsch = new JSch();  
-	  Session session  = jsch.getSession("MonicaRobison", "onyx.boisestate.edu", 22);
+	  Session session  = jsch.getSession(user, host, 22);
 	  //Session session = jsch.getSession(user, host, 22);
 	  session.setPassword(password);
 	  
