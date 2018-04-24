@@ -14,12 +14,12 @@ import com.jcraft.jsch.Session;
 
 public class JDBC {
 
-  static int lport=8740;
-  static String rhost="";
-  static String host="";
-  static int rport= 0; //
-  static String user="";//ssh user
-  static String password="";//ssh pass
+  static int lport=8845;
+  static String rhost="127.0.0.1";
+  static String host="onyx.boisestate.edu";
+  static int rport=5840;
+  static String user="monicarobison";//ssh user
+  static String password="15@lbaRocks95";//ssh pass
   
   static String dbuserName = "msandbox";//mysql user
   static String dbpassword = "taranica"; //mysql pass
@@ -29,20 +29,18 @@ public class JDBC {
   //static Session session= null;
 
   
-  public JDBC() throws JSchException, SQLException{
+  public JDBC() throws JSchException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
 	  Properties config = new Properties();
 	  config.put("StrictHostKeyChecking", "no");
 	  JSch jsch = new JSch();  
-	  Session session  = jsch.getSession(user, host, 22);
-	  //Session session = jsch.getSession(user, host, 22);
-	  session.setPassword(password);
-	  
-	  System.out.println(session);
-	  
+	 // Session session  = jsch.getSession("MonicaRobison", "onyx.boisestate.edu", 22);
+	  Session session = jsch.getSession(user, host, 22);
+	  session.setPassword(password);  
 
 	  session.setConfig(config);
 	  session.connect();
-	  session.setPortForwardingL(lport, "localhost", rport);
+	  session.setPortForwardingL(lport, "localhost", 5840);
+	  makeConnection(session);
   }
   
   public static void closeConnection(){
@@ -53,39 +51,26 @@ public class JDBC {
    }
   }
 	
-	public static Connection makeConnection() throws JSchException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public static Connection makeConnection(Session session) throws JSchException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
 		try {
-//	        java.util.Properties config = new java.util.Properties(); 
-//            config.put("StrictHostKeyChecking", "no");
-//			JSch jsch = new JSch();
-//			session = jsch.getSession(user, host, 22);
-//			session.setPassword(password);
-//			session.setConfig(config);
-//            session.connect();
-//            System.out.println("Connected");
-//            int assinged_port=session.setPortForwardingL(lport, rhost, rport);
-//            System.out.println("localhost:"+assinged_port+" -> "+rhost+":"+rport);
-//            System.out.println("Port Forwarded");
-//
-//
-//           url = url+assinged_port+"/myDB";
-//           Class.forName(driverName).newInstance();
-//           conn = DriverManager.getConnection (url, dbuserName, dbpassword);
-//           System.out.println ("Database connection established");
-//           System.out.println("DONE");
+			System.out.println(session.toString());
+			//Class.forName("com.mysql.jdbc.Driver");
+//			conn = DriverManager.getConnection(
+//					"jdbc:mysql://onyx.boisestate.edu:22/taskManager?verifyServerCertificate=false&useSSL=true", "msandbox",
+//					"taranica");
 			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:5840/taskManager?verifyServerCertificate=false&useSSL=true", "msandbox",
-					"taranica");
+					"jdbc:mysql://localhost:8845/taskManager?verifyServerCertificate=false&useSSL=true", dbuserName,
+					dbpassword);
 			// Do something with the Connection
 			System.out.println("Database [taskManager] connection succeeded!");
 			System.out.println();
 			return conn;
 		} catch (SQLException ex) {
 			// handle any errors
-//			System.err.println("SQLException: " + ex.getMessage());
-//			System.err.println("SQLState: " + ex.getSQLState());
-//			System.err.println("VendorError: " + ex.getErrorCode());
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
 		}
 		return null;
 	}
