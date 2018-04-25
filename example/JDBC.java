@@ -14,15 +14,15 @@ import com.jcraft.jsch.Session;
 
 public class JDBC {
 
-  static int lport=8845;
+  static int lport=;
   static String rhost="127.0.0.1";
-  static String host="onyx.boisestate.edu";
-  static int rport=5840;
-  static String user="monicarobison";//ssh user
-  static String password="15@lbaRocks95";//ssh pass
+  static String host="";
+  static int rport=;
+  static String user="";//ssh user
+  static String password="";//ssh pass
   
-  static String dbuserName = "msandbox";//mysql user
-  static String dbpassword = "taranica"; //mysql pass
+  static String dbuserName = "";//mysql user
+  static String dbpassword = ""; //mysql pass
   static String url = "jdbc:mysql://localhost:";
   static String driverName="com.mysql.jdbc.Driver";
   static Connection conn = null;
@@ -33,7 +33,6 @@ public class JDBC {
 	  Properties config = new Properties();
 	  config.put("StrictHostKeyChecking", "no");
 	  JSch jsch = new JSch();  
-	 // Session session  = jsch.getSession("MonicaRobison", "onyx.boisestate.edu", 22);
 	  Session session = jsch.getSession(user, host, 22);
 	  session.setPassword(password);  
 
@@ -55,10 +54,6 @@ public class JDBC {
 
 		try {
 			System.out.println(session.toString());
-			//Class.forName("com.mysql.jdbc.Driver");
-//			conn = DriverManager.getConnection(
-//					"jdbc:mysql://onyx.boisestate.edu:22/taskManager?verifyServerCertificate=false&useSSL=true", "msandbox",
-//					"taranica");
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:8845/taskManager?verifyServerCertificate=false&useSSL=true", dbuserName,
 					dbpassword);
